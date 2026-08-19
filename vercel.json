@@ -1,0 +1,13 @@
+{
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "redirects": [
+    { "source": "/join", "destination": "/", "permanent": false },
+    { "source": "/bin",  "destination": "/?utm_source=flyer&utm_medium=print&utm_campaign=bin_tag", "permanent": false },
+    { "source": "/drop", "destination": "/?utm_source=flyer&utm_medium=print&utm_campaign=letterbox", "permanent": false }
+  ],
+  "headers": [
+    { "source": "/(.*)\\.(svg|png|jpg|webp|woff2)", "headers": [
+      { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" } ] }
+  ]
+}
