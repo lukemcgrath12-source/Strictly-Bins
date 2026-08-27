@@ -8,44 +8,10 @@
 <meta name="robots" content="noindex, follow">
 <meta name="theme-color" content="#00541F">
 <link rel="canonical" href="https://strictlybins.com.au/404">
-<link rel="preload" href="/assets/fonts/poppins-800.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="/assets/fonts/poppins-400.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="icon" href="/assets/favicon.ico" sizes="any">
-<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png">
-<link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
-<link rel="manifest" href="/site.webmanifest">
-<meta name="msapplication-TileColor" content="#00541F">
-<meta name="msapplication-config" content="/browserconfig.xml">
-<meta property="og:type" content="website">
-<meta property="og:site_name" content="Strictly Bins">
-<meta property="og:locale" content="en_AU">
-<meta property="og:url" content="https://strictlybins.com.au/404">
-<meta property="og:title" content="Page not found | Strictly Bins">
-<meta property="og:description" content="That page could not be found. Head back to the Strictly Bins home page to check if we service your street.">
-<meta property="og:image" content="https://strictlybins.com.au/assets/og-image.png">
-<meta property="og:image:type" content="image/png">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Strictly Bins. Bin day, sorted.">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Page not found | Strictly Bins">
-<meta name="twitter:description" content="That page could not be found. Head back to the Strictly Bins home page to check if we service your street.">
-<meta name="twitter:image" content="https://strictlybins.com.au/assets/og-image.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-/* ── brand typeface ───────────────────────────────────────────
-   Self-hosted, no external requests. Poppins is a free geometric
-   sans standing in for Gilroy, and matches the printed flyer.
-   TO SWAP IN GILROY: replace the five woff2 files in
-   /assets/fonts/, change the family name on the @font-face rules
-   and the two tokens below. Nothing else needs to change.
-   ─────────────────────────────────────────────────────────── */
-@font-face{font-family:'SB Sans';src:url('/assets/fonts/poppins-400.woff2') format('woff2');font-weight:400;font-style:normal;font-display:swap}
-@font-face{font-family:'SB Sans';src:url('/assets/fonts/poppins-500.woff2') format('woff2');font-weight:500;font-style:normal;font-display:swap}
-@font-face{font-family:'SB Sans';src:url('/assets/fonts/poppins-600.woff2') format('woff2');font-weight:600;font-style:normal;font-display:swap}
-@font-face{font-family:'SB Sans';src:url('/assets/fonts/poppins-700.woff2') format('woff2');font-weight:700;font-style:normal;font-display:swap}
-@font-face{font-family:'SB Sans';src:url('/assets/fonts/poppins-800.woff2') format('woff2');font-weight:800;font-style:normal;font-display:swap}
-
 /* ═══════════════════════════════════════════════════════════
    STRICTLY BINS — shared stylesheet for secondary pages
    Same tokens and components as the landing page. Keep these
@@ -63,8 +29,8 @@
   --ink:#141414;
   --line:rgba(20,20,20,.10);
   --line-dk:rgba(197,233,196,.16);
-  --display:'SB Sans',system-ui,sans-serif;
-  --sans:'SB Sans',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --display:'Baloo 2',system-ui,sans-serif;
+  --sans:'Figtree',system-ui,-apple-system,'Segoe UI',sans-serif;
   --wrap:88rem;
   --gut:clamp(20px,4vw,32px);
   --sec:clamp(64px,8vw,110px);
@@ -212,12 +178,12 @@ footer .logo{color:var(--mist)}
 
 <header class="topbar">
   <div class="row">
-    <a href="/" aria-label="Strictly Bins home"><svg class="logo" role="img" aria-label="Strictly Bins"><use href="#sb-word"/></svg></a>
+    <a href="index.html" aria-label="Strictly Bins home"><svg class="logo" role="img" aria-label="Strictly Bins"><use href="#sb-word"/></svg></a>
     <div class="links">
-      <a href="/#service">The service</a><a href="/#how">How it works</a><a href="/#pricing">Pricing</a><a href="/#about">About us</a><a href="/#faq">FAQs</a>
+      <a href="index.html#service">The service</a><a href="index.html#how">How it works</a><a href="index.html#pricing">Pricing</a><a href="index.html#about">About us</a><a href="index.html#faq">FAQs</a>
     </div>
     <a class="tel" href="tel:1300317701">1300 317 701</a>
-    <a class="pill" href="/#enquiry">Check your street
+    <a class="pill" href="index.html#enquiry">Check your street
       <i class="arw"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></i></a>
   </div>
 </header>
@@ -232,16 +198,16 @@ footer .logo{color:var(--mist)}
       <h1>Nothing here.</h1>
       <p class="lead">That page doesn't exist, or it has moved. No harm done, everything you need is one tap away.</p>
       <div class="btns">
-        <a class="pill lg" href="/#enquiry">Check if we service your street <i class="arw"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></i></a>
+        <a class="pill lg" href="index.html#enquiry">Check if we service your street <i class="arw"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></i></a>
         <a class="plain" href="tel:1300317701"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg> 1300 317 701</a>
       </div>
     </div>
 
     <div class="wrap" style="padding-inline:0">
       <div class="nextSteps">
-        <article><div class="n">01</div><h3>How it works</h3><p>Three steps, and only one of them is yours.</p><p style="margin-top:14px"><a href="/#how" style="color:var(--forest);font-weight:600">See how it works</a></p></article>
-        <article><div class="n">02</div><h3>Pricing</h3><p>From $39 a month incl GST. No lock-in, nothing to pay up front.</p><p style="margin-top:14px"><a href="/#pricing" style="color:var(--forest);font-weight:600">View pricing</a></p></article>
-        <article><div class="n">03</div><h3>Common questions</h3><p>Bins, billing, service days and what happens if something goes wrong.</p><p style="margin-top:14px"><a href="/#faq" style="color:var(--forest);font-weight:600">Read the FAQs</a></p></article>
+        <article><div class="n">01</div><h3>How it works</h3><p>Three steps, and only one of them is yours.</p><p style="margin-top:14px"><a href="index.html#how" style="color:var(--forest);font-weight:600">See how it works</a></p></article>
+        <article><div class="n">02</div><h3>Pricing</h3><p>One simple subscription. No lock-in, and nothing to pay up front.</p><p style="margin-top:14px"><a href="index.html#pricing" style="color:var(--forest);font-weight:600">View pricing</a></p></article>
+        <article><div class="n">03</div><h3>Common questions</h3><p>Bins, billing, service days and what happens if something goes wrong.</p><p style="margin-top:14px"><a href="index.html#faq" style="color:var(--forest);font-weight:600">Read the FAQs</a></p></article>
       </div>
     </div>
   </div>
@@ -253,21 +219,21 @@ footer .logo{color:var(--mist)}
     <div class="fgrid">
       <div>
         <svg class="logo" role="img" aria-label="Strictly Bins"><use href="#sb-word"/></svg>
-        <p style="max-width:34ch;margin:0">A local, father-and-son bin cleaning service for the Georges River and Bayside areas.</p>
+        <p style="max-width:34ch;margin:0">A local, father-and-son bin cleaning service for the St George area.</p>
       </div>
       <div>
         <p class="fh">Get in touch</p>
         <ul class="flist">
           <li><a href="tel:1300317701">1300 317 701</a></li>
           <li><a href="mailto:hello@strictlybins.com.au">hello@strictlybins.com.au</a></li>
-          <li><a href="/#enquiry">Check your street</a></li>
+          <li><a href="index.html#enquiry">Check your street</a></li>
         </ul>
       </div>
       <div>
         <p class="fh">Service area</p>
         <ul class="flist"><li>Georges River Council</li><li>Bayside Council</li></ul>
         <p class="fh" style="margin-top:28px">Legal</p>
-        <ul class="flist"><li><a href="/terms-of-service">Terms of Service</a></li><li><a href="/privacy-policy">Privacy Policy</a></li></ul>
+        <ul class="flist"><li><a href="terms-of-service.html">Terms of Service</a></li><li><a href="privacy-policy.html">Privacy Policy</a></li></ul>
       </div>
     </div>
     <div class="legal"><span>&copy; 2026 Strictly Bins</span><span>ABN 98 459 492 443</span><span>All prices include GST</span></div>
