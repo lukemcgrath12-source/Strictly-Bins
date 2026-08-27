@@ -2,12 +2,16 @@
   "cleanUrls": true,
   "trailingSlash": false,
   "redirects": [
-    { "source": "/join", "destination": "/?utm_source=direct&utm_medium=shortlink&utm_campaign=join", "permanent": false },
-    { "source": "/bin",  "destination": "/?utm_source=flyer&utm_medium=print&utm_campaign=bin_tag", "permanent": false },
-    { "source": "/drop", "destination": "/?utm_source=flyer&utm_medium=print&utm_campaign=letterbox", "permanent": false }
+    { "source": "/join", "destination": "/", "permanent": false },
+
+    { "source": "/bin",  "destination": "/?utm_source=bintag&utm_medium=print&utm_campaign=launch_2026", "permanent": false },
+    { "source": "/drop", "destination": "/?utm_source=letterbox&utm_medium=print&utm_campaign=launch_2026", "permanent": false }
   ],
   "headers": [
-    { "source": "/(.*)\\.(svg|png|jpg|jpeg|webp|ico|woff2|mp4|webm)", "headers": [
-      { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" } ] }
+    { "source": "/(.*)\\.(svg|png|jpg|webp|woff2)", "headers": [
+      { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" } ] },
+
+    { "source": "/(bin|drop|join)", "headers": [
+      { "key": "Cache-Control", "value": "no-store, max-age=0" } ] }
   ]
 }

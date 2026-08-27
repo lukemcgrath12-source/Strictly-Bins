@@ -3,6 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<!-- Google Analytics 4 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-F606RMGPF4"></script>
+<script>
+  window.dataLayer=window.dataLayer||[];
+  function gtag(){dataLayer.push(arguments)}
+  gtag('js',new Date());
+  gtag('config','G-F606RMGPF4',{anonymize_ip:true});
+</script>
 <title>Strictly Bins | Bin Day… Sorted. Bin cleaning in Georges River &amp; Bayside</title>
 <meta name="description" content="After your bins are emptied, we take care of everything else. Bin cleaning, deodorising and neat return to your property edge across the Georges River and Bayside council areas. No lock-in, and nothing to pay up front.">
 <meta name="theme-color" content="#00541F">
@@ -849,9 +857,43 @@ footer a:hover{color:var(--mist)}
     var payload=Object.fromEntries(new FormData(form).entries());
     payload.submitted_at=new Date().toISOString();
     console.log('Strictly Bins enquiry',payload);
+
+    /* GA4 conversion. Mark 'generate_lead' as a key event in
+       Admin > Events once the first hits come through. */
+    if(typeof gtag==='function'){
+      gtag('event','generate_lead',{
+        property_type:payload.property_type||'',
+        frequency:payload.frequency||'',
+        lead_source:payload.source||''
+      });
+    }
+
     card.classList.add('done');
     card.scrollIntoView({block:'center',behavior:reduce?'auto':'smooth'});
   });
+})();
+</script>
+
+<script>
+/* ── Strictly Bins · GA4 interaction tracking ──────────────
+   Fires on every page. Form conversion is handled separately
+   in the page script on index. */
+(function(){
+  function ev(name,params){ if(typeof gtag==='function') gtag('event',name,params||{}) }
+
+  document.addEventListener('click',function(e){
+    var a=e.target.closest('a'); if(!a) return;
+    var href=a.getAttribute('href')||'';
+
+    if(href.indexOf('tel:')===0){
+      ev('click_to_call',{link_url:href,link_text:(a.textContent||'').trim().slice(0,80)});
+      return;
+    }
+    if(href.indexOf('#enquiry')>-1){
+      ev('cta_enquiry_click',{link_text:(a.textContent||'').trim().slice(0,80),
+                              location:(a.closest('section')||{}).id||'other'});
+    }
+  },true);
 })();
 </script>
 </body>

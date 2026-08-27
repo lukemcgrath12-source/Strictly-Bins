@@ -3,6 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<!-- Google Analytics 4 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-F606RMGPF4"></script>
+<script>
+  window.dataLayer=window.dataLayer||[];
+  function gtag(){dataLayer.push(arguments)}
+  gtag('js',new Date());
+  gtag('config','G-F606RMGPF4',{anonymize_ip:true});
+</script>
 <title>Page not found | Strictly Bins</title>
 <meta name="description" content="That page could not be found. Head back to the Strictly Bins home page to check if we service your street.">
 <meta name="robots" content="noindex, follow">
@@ -239,5 +247,32 @@ footer .logo{color:var(--mist)}
     <div class="legal"><span>&copy; 2026 Strictly Bins</span><span>ABN 98 459 492 443</span><span>All prices include GST</span></div>
   </div>
 </footer>
+
+<script>
+/* ── Strictly Bins · GA4 interaction tracking ──────────────
+   Fires on every page. Form conversion is handled separately
+   in the page script on index. */
+(function(){
+  function ev(name,params){ if(typeof gtag==='function') gtag('event',name,params||{}) }
+
+  document.addEventListener('click',function(e){
+    var a=e.target.closest('a'); if(!a) return;
+    var href=a.getAttribute('href')||'';
+
+    if(href.indexOf('tel:')===0){
+      ev('click_to_call',{link_url:href,link_text:(a.textContent||'').trim().slice(0,80)});
+      return;
+    }
+    if(href.indexOf('#enquiry')>-1){
+      ev('cta_enquiry_click',{link_text:(a.textContent||'').trim().slice(0,80),
+                              location:(a.closest('section')||{}).id||'other'});
+    }
+  },true);
+
+  /* log the broken URL that landed here */
+  ev('page_not_found',{page_path:location.pathname+location.search,
+                       referrer:document.referrer||'(none)'});
+})();
+</script>
 </body>
 </html>
