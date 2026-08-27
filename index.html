@@ -7,6 +7,8 @@
 <meta name="description" content="After your bins are emptied, we take care of everything else. Bin cleaning, deodorising and neat return to your property edge across the Georges River and Bayside council areas. From $39 a month, incl GST. No lock-in, nothing to pay up front.">
 <meta name="theme-color" content="#00541F">
 <link rel="canonical" href="https://strictlybins.com.au/">
+<link rel="preload" href="/assets/fonts/poppins-800.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/poppins-400.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="icon" href="/assets/favicon.ico" sizes="any">
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png">
@@ -29,9 +31,6 @@
 <meta name="twitter:title" content="Strictly Bins | Bin Day… Sorted.">
 <meta name="twitter:description" content="After your bins are emptied, we take care of everything else. Bin cleaning, deodorising and neat return to your property edge across the Georges River and Bayside council areas. From $39 a month, incl GST. No lock-in, nothing to pay up front.">
 <meta name="twitter:image" content="https://strictlybins.com.au/assets/og-image.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
 <script type="application/ld+json">
 {
   "@context":"https://schema.org","@type":"LocalBusiness","name":"Strictly Bins",
@@ -42,6 +41,19 @@
 }
 </script>
 <style>
+/* ── brand typeface ───────────────────────────────────────────
+   Self-hosted, no external requests. Poppins is a free geometric
+   sans standing in for Gilroy, and matches the printed flyer.
+   TO SWAP IN GILROY: replace the five woff2 files in
+   /assets/fonts/, change the family name on the @font-face rules
+   and the two tokens below. Nothing else needs to change.
+   ─────────────────────────────────────────────────────────── */
+@font-face{font-family:'SB Sans';src:url('/assets/fonts/poppins-400.woff2') format('woff2');font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:'SB Sans';src:url('/assets/fonts/poppins-500.woff2') format('woff2');font-weight:500;font-style:normal;font-display:swap}
+@font-face{font-family:'SB Sans';src:url('/assets/fonts/poppins-600.woff2') format('woff2');font-weight:600;font-style:normal;font-display:swap}
+@font-face{font-family:'SB Sans';src:url('/assets/fonts/poppins-700.woff2') format('woff2');font-weight:700;font-style:normal;font-display:swap}
+@font-face{font-family:'SB Sans';src:url('/assets/fonts/poppins-800.woff2') format('woff2');font-weight:800;font-style:normal;font-display:swap}
+
 /* ═══════════════════════════════════════════════════════════
    STRICTLY BINS — v3
    Nav lives inside the hero card. Condensed nav takes over on
@@ -60,8 +72,8 @@
   --ink:#141414;
   --line:rgba(20,20,20,.10);
   --line-dk:rgba(197,233,196,.16);
-  --display:'Baloo 2',system-ui,sans-serif;
-  --sans:'Figtree',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --display:'SB Sans',system-ui,sans-serif;
+  --sans:'SB Sans',system-ui,-apple-system,'Segoe UI',sans-serif;
   --wrap:88rem;
   --pad:clamp(14px,3.2vw,28px);
   --gut:clamp(20px,4vw,32px);
