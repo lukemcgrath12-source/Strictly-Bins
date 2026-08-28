@@ -225,8 +225,9 @@ section{padding:var(--sec) 0}
 .tile.dark{background:var(--deeper);color:rgba(197,233,196,.6)}
 .tile.dark h3{color:#fff}
 .tileArt{margin:0 -34px -1px;display:block;width:calc(100% + 68px)}
-.tilePhoto{margin:0 -34px -1px;display:block;width:calc(100% + 68px);
-  height:clamp(178px,25vw,232px);object-fit:cover;object-position:center 58%}
+.tileMedia{margin:0 -34px -1px;display:block;overflow:hidden}
+.tileMedia img{width:100%;max-width:none;display:block;
+  height:clamp(178px,20vw,240px);object-fit:cover;object-position:center 30%}
 
 /* steps */
 .steps{list-style:none;counter-reset:s;margin:0;padding:0;display:grid;gap:1px;
@@ -543,16 +544,18 @@ footer a:hover{color:var(--mist)}
           <h3>Returned neatly,<br>every time.</h3>
           <p>Upright at your property edge, lids closed. Exactly where they should be.</p>
         </div>
+        <div class="tileMedia">
         <picture>
           <source type="image/webp"
                   srcset="/media/bins-returned-800.webp 800w, /media/bins-returned-1200.webp 1200w"
                   sizes="(min-width:1060px) 46vw, (min-width:640px) 50vw, 100vw">
-          <img class="tilePhoto" src="/media/bins-returned-1200.jpg"
+          <img src="/media/bins-returned-1200.jpg"
                srcset="/media/bins-returned-800.jpg 800w, /media/bins-returned-1200.jpg 1200w"
                sizes="(min-width:1060px) 46vw, (min-width:640px) 50vw, 100vw"
                width="1200" height="600" loading="lazy" decoding="async"
                alt="Three cleaned wheelie bins standing upright side by side with their lids closed">
         </picture>
+        </div>
       </div>
       <div class="tile dark">
         <h3>Nothing to pay<br>up front.</h3>
