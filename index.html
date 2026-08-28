@@ -225,6 +225,8 @@ section{padding:var(--sec) 0}
 .tile.dark{background:var(--deeper);color:rgba(197,233,196,.6)}
 .tile.dark h3{color:#fff}
 .tileArt{margin:0 -34px -1px;display:block;width:calc(100% + 68px)}
+.tilePhoto{margin:0 -34px -1px;display:block;width:calc(100% + 68px);
+  height:clamp(178px,25vw,232px);object-fit:cover;object-position:center 58%}
 
 /* steps */
 .steps{list-style:none;counter-reset:s;margin:0;padding:0;display:grid;gap:1px;
@@ -541,13 +543,16 @@ footer a:hover{color:var(--mist)}
           <h3>Returned neatly,<br>every time.</h3>
           <p>Upright at your property edge, lids closed. Exactly where they should be.</p>
         </div>
-        <svg class="tileArt" viewBox="0 0 600 150" preserveAspectRatio="xMidYMax meet" aria-hidden="true">
-          <g transform="translate(232,-30) scale(.72)"><use href="#bin"/></g>
-          <g transform="translate(346,-30) scale(.72)"><use href="#bin"/></g>
-          <rect x="0" y="106" width="600" height="8" fill="#8FC79A"/>
-          <rect x="0" y="114" width="600" height="12" fill="#7ABB86"/>
-          <rect x="0" y="126" width="600" height="24" fill="#03210C"/>
-        </svg>
+        <picture>
+          <source type="image/webp"
+                  srcset="/media/bins-returned-800.webp 800w, /media/bins-returned-1200.webp 1200w"
+                  sizes="(min-width:1060px) 46vw, (min-width:640px) 50vw, 100vw">
+          <img class="tilePhoto" src="/media/bins-returned-1200.jpg"
+               srcset="/media/bins-returned-800.jpg 800w, /media/bins-returned-1200.jpg 1200w"
+               sizes="(min-width:1060px) 46vw, (min-width:640px) 50vw, 100vw"
+               width="1200" height="600" loading="lazy" decoding="async"
+               alt="Three cleaned wheelie bins standing upright side by side with their lids closed">
+        </picture>
       </div>
       <div class="tile dark">
         <h3>Nothing to pay<br>up front.</h3>
@@ -708,7 +713,7 @@ footer a:hover{color:var(--mist)}
         <button class="pill lg" type="submit" style="width:100%;justify-content:space-between">Submit my enquiry
           <i class="arw"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></i></button>
 
-        <p class="privacy">We'll only use your details to respond to your enquiry and manage your service. See our <a href="privacy-policy.html">Privacy Policy</a>. Prefer to talk? Call <a href="tel:1300317701">1300 317 701</a>.</p>
+        <p class="privacy">We'll only use your details to respond to your enquiry and manage your service. See our <a href="/privacy-policy">Privacy Policy</a>. Prefer to talk? Call <a href="tel:1300317701">1300 317 701</a>.</p>
       </form>
 
       <div class="thanks" role="status">
@@ -734,7 +739,7 @@ footer a:hover{color:var(--mist)}
       <details><summary>What if you miss a visit?</summary><div class="ans">We'll let you know and arrange to come back, or we won't charge you. You are never charged for a service we don't perform.</div></details>
       <details><summary>How do I pay, and when does billing start?</summary><div class="ans">EFT or credit card, processed securely by Stripe. We never see or store your details. Your first payment comes after your first service. No cash.</div></details>
       <details><summary>Is there a lock-in contract?</summary><div class="ans">No lock-in, no minimum term, no exit fees. Cancel or pause anytime with 2 business days' notice.</div></details>
-      <details><summary>What areas do you cover?</summary><div class="ans">The Georges River and Bayside council areas, and surrounds. You can <a href="areas-we-service.html">see the full list of suburbs we service</a>. If you're just outside, enquire anyway and we'll let you know when we reach your street.</div></details>
+      <details><summary>What areas do you cover?</summary><div class="ans">The Georges River and Bayside council areas, and surrounds. You can <a href="/areas-we-service">see the full list of suburbs we service</a>. If you're just outside, enquire anyway and we'll let you know when we reach your street.</div></details>
       <details><summary>How many bins are covered?</summary><div class="ans">Up to 2 bins per service. More than that, or something bespoke, and we'll quote it. Just let us know when you <a href="#enquiry">submit your enquiry</a>.</div></details>
     </div>
   </div>
@@ -773,9 +778,9 @@ footer a:hover{color:var(--mist)}
       </div>
       <div>
         <p class="fh">Service area</p>
-        <ul class="flist"><li>Georges River Council</li><li>Bayside Council</li><li><a href="areas-we-service.html">All suburbs we service</a></li></ul>
+        <ul class="flist"><li>Georges River Council</li><li>Bayside Council</li><li><a href="/areas-we-service">All suburbs we service</a></li></ul>
         <p class="fh" style="margin-top:28px">Legal</p>
-        <ul class="flist"><li><a href="terms-of-service.html">Terms of Service</a></li><li><a href="privacy-policy.html">Privacy Policy</a></li></ul>
+        <ul class="flist"><li><a href="/terms-of-service">Terms of Service</a></li><li><a href="/privacy-policy">Privacy Policy</a></li></ul>
       </div>
     </div>
     <div class="legal"><span>&copy; 2026 Strictly Bins</span><span>ABN 98 459 492 443</span><span>All prices include GST</span></div>
