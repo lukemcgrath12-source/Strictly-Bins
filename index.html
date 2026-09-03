@@ -271,9 +271,18 @@ section{padding:var(--sec) 0}
 .panel{position:relative;border-radius:26px;overflow:hidden;background:var(--mist);
   min-height:660px;display:flex;flex-direction:column;justify-content:flex-end;
   padding:clamp(20px,2.6vw,34px);color:var(--deep)}
-.slot{position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:30px;
-  background:linear-gradient(160deg,#D2EED1,#A6CDA5)}
-.slot span{font-size:13px;font-weight:600;color:rgba(6,46,19,.46);max-width:26ch;line-height:1.55}
+.panel .shot{position:absolute;inset:0;z-index:1}
+.panel .shot img{width:100%;height:100%;object-fit:cover;object-position:50% 32%}
+.panel .shot::after{content:"";position:absolute;inset:0;
+  background:linear-gradient(to bottom,rgba(6,46,19,0) 42%,rgba(6,46,19,.28) 100%)}
+/* narrow screens: stack the photo above the copy rather than
+   overlaying it, so the card never sits across their faces */
+@media(max-width:939px){
+  .panel{min-height:0;display:block;padding:0;background:#fff}
+  .panel .shot{position:relative;display:block;aspect-ratio:4/5}
+  .panel .shot::after{display:none}
+  .panel .body{background:#fff;backdrop-filter:none;border-radius:0;padding:clamp(26px,6vw,36px)}
+}
 .panel .body{position:relative;z-index:2;background:rgba(255,255,255,.86);backdrop-filter:blur(16px);
   border-radius:20px;padding:clamp(26px,3vw,40px)}
 .panel .body p{font-size:16.5px;color:rgba(6,46,19,.72);line-height:1.55}
@@ -306,6 +315,21 @@ legend{padding:0;margin-bottom:11px}
 .gt:first-of-type{margin-top:0;padding-top:0;border-top:0}
 .privacy{font-size:13.5px;color:rgba(20,20,20,.52);margin:20px 0 0;line-height:1.55}
 .privacy a{color:var(--forest);font-weight:600}
+
+/* address autocomplete */
+.ac{position:relative}
+.ac ul{position:absolute;z-index:30;top:calc(100% + 6px);left:0;right:0;margin:0;padding:6px;
+  list-style:none;background:#fff;border:1px solid var(--line);border-radius:16px;
+  box-shadow:0 18px 44px -12px rgba(6,46,19,.26);max-height:min(360px,46vh);overflow-y:auto;
+  -webkit-overflow-scrolling:touch}
+.ac ul[hidden]{display:none}
+.ac li{display:flex;gap:12px;align-items:flex-start;padding:12px 13px;border-radius:11px;cursor:pointer;
+  font-size:15.5px;line-height:1.4;color:rgba(20,20,20,.6)}
+.ac li svg{flex:none;margin-top:2px;color:var(--grass)}
+.ac li b{display:block;font-weight:600;color:var(--ink)}
+.ac li[aria-selected=true],.ac li:hover{background:var(--alt)}
+.ac .acFoot{padding:8px 13px 6px;font-size:11.5px;color:rgba(20,20,20,.36);
+  border-top:1px solid var(--line);margin-top:4px}
 .err{color:#B4472F;font-size:13.5px;font-weight:500;display:none}
 .field.bad input,.field.bad textarea{border-color:#B4472F}
 .field.bad .err,fieldset.bad .err{display:block}
@@ -361,6 +385,8 @@ footer a:hover{color:var(--mist)}
   border-radius:50%;border:1px solid var(--line-dk);color:var(--mist)}
 @media(min-width:940px){.sticky{display:none}}
 
+.sr{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;
+  clip:rect(0 0 0 0);white-space:nowrap;border:0}
 .skip{position:absolute;left:-9999px}
 .skip:focus{left:14px;top:14px;z-index:99;background:#fff;padding:12px 20px;border-radius:10px}
 
@@ -648,8 +674,20 @@ footer a:hover{color:var(--mist)}
       <h2>We're Simon<br>and Michael.</h2>
     </div>
     <div class="panel" data-rev>
-      <!-- PHOTO SLOT — Simon supplying. Portrait, natural, shot locally. -->
-      <div class="slot"><span>PHOTO TO COME<br>Simon &amp; Michael, natural and friendly, shot locally</span></div>
+      <picture class="shot">
+        <source type="image/webp"
+          srcset="/media/simon-michael-600.webp 600w,
+                  /media/simon-michael-800.webp 800w,
+                  /media/simon-michael-1200.webp 1200w"
+          sizes="(max-width:900px) 92vw, 44vw">
+        <img src="/media/simon-michael-800.jpg"
+          srcset="/media/simon-michael-600.jpg 600w,
+                  /media/simon-michael-800.jpg 800w,
+                  /media/simon-michael-1200.jpg 1200w"
+          sizes="(max-width:900px) 92vw, 44vw"
+          width="1200" height="1200" loading="lazy" decoding="async"
+          alt="Simon and Michael, the father-and-son team behind Strictly Bins, in branded uniforms beside two wheelie bins">
+      </picture>
       <div class="body">
         <p class="first">A father-and-son team who've called the St George area home for over 20 years. The streets we service are our own neighbourhood.</p>
         <p>When you call, you'll speak to one of us, not a call centre.</p>
@@ -684,7 +722,20 @@ footer a:hover{color:var(--mist)}
             <input type="email" id="em" name="email" autocomplete="email" inputmode="email" required><span class="err">Please enter a valid email address</span></div>
         </div>
         <div class="field"><label for="ad">Service address<span class="req">*</span></label>
-          <input type="text" id="ad" name="address" autocomplete="street-address" placeholder="Start typing your address…" required><span class="err">Please enter the address you'd like serviced</span></div>
+          <div class="ac">
+            <input type="text" id="ad" name="address" autocomplete="street-address"
+                   placeholder="Start typing your address…" required
+                   role="combobox" aria-expanded="false" aria-autocomplete="list"
+                   aria-controls="ac-list" aria-describedby="ac-help">
+            <ul id="ac-list" role="listbox" aria-label="Address suggestions" hidden></ul>
+          </div>
+          <span id="ac-help" class="sr">Suggestions appear as you type. Use the arrow keys to review them and Enter to choose. You can also type your address in full.</span>
+          <span class="err">Please enter the address you'd like serviced</span></div>
+        <input type="hidden" name="address_suburb" id="ad-suburb">
+        <input type="hidden" name="address_postcode" id="ad-postcode">
+        <input type="hidden" name="address_state" id="ad-state">
+        <input type="hidden" name="address_place_id" id="ad-place">
+        <input type="hidden" name="address_source" id="ad-src" value="typed">
 
         <p class="gt">Your property and service</p>
         <fieldset id="f-prop"><legend>Property type<span class="req">*</span></legend>
@@ -878,6 +929,190 @@ footer a:hover{color:var(--mist)}
 
     card.classList.add('done');
     card.scrollIntoView({block:'center',behavior:reduce?'auto':'smooth'});
+  });
+})();
+</script>
+
+<script>
+/* ═════ Strictly Bins · service address autocomplete ═════
+   Google Places API (New). Loads lazily on first focus of the
+   address field, so the page costs nothing for visitors who
+   never reach the form.
+
+   Sessions are tokenised: the typing requests bundle with the
+   closing fetchFields call and bill at zero. An abandoned
+   session falls back to per-request pricing, which is why the
+   token is reset after every selection.
+
+   The field degrades to a plain text input if the key is
+   missing, the script fails, or the user ignores the list.
+   Submission never depends on Google.
+
+   SETUP: paste the browser key below. Restrict it by HTTP
+   referrer to strictlybins.com.au/* and to the Places API
+   only, then set a daily quota cap in Cloud console.
+   ════════════════════════════════════════════════════ */
+(function(){
+  var KEY = 'GOOGLE_MAPS_BROWSER_KEY';
+
+  var input = document.getElementById('ad');
+  if(!input || !KEY || KEY === 'GOOGLE_MAPS_BROWSER_KEY') return;
+
+  var list  = document.getElementById('ac-list'),
+      hSub  = document.getElementById('ad-suburb'),
+      hPost = document.getElementById('ad-postcode'),
+      hSt   = document.getElementById('ad-state'),
+      hPid  = document.getElementById('ad-place'),
+      hSrc  = document.getElementById('ad-src');
+
+  /* Bias toward Georges River and Bayside without excluding
+     anyone. Out-of-area enquiries are still welcome. */
+  var BIAS = {center:{lat:-33.965, lng:151.115}, radius:12000};
+
+  var places = null, token = null, items = [], active = -1, timer = null, seq = 0;
+
+  function bootstrap(){
+    if(window.google && window.google.maps && window.google.maps.importLibrary) return Promise.resolve();
+    return new Promise(function(resolve, reject){
+      var sc = document.createElement('script');
+      sc.async = true;
+      sc.src = 'https://maps.googleapis.com/maps/api/js?key=' + encodeURIComponent(KEY) +
+               '&libraries=places&loading=async&v=weekly&language=en-AU&region=AU';
+      sc.onload = resolve;
+      sc.onerror = reject;
+      document.head.appendChild(sc);
+    });
+  }
+
+  function load(){
+    if(places) return places;
+    places = bootstrap()
+      .then(function(){ return google.maps.importLibrary('places') })
+      .catch(function(){ places = null; return null });
+    return places;
+  }
+
+  function newToken(lib){
+    token = new lib.AutocompleteSessionToken();
+    return token;
+  }
+
+  function close(){
+    list.hidden = true; list.innerHTML = '';
+    input.setAttribute('aria-expanded','false');
+    input.removeAttribute('aria-activedescendant');
+    items = []; active = -1;
+  }
+
+  function pin(){
+    return '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" ' +
+           'stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+           '<path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0116 0z"/><circle cx="12" cy="10" r="3"/></svg>';
+  }
+
+  function esc(t){
+    return String(t).replace(/[&<>"]/g, function(c){
+      return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];
+    });
+  }
+
+  function paint(){
+    if(!items.length){ close(); return }
+    list.innerHTML = items.map(function(it,i){
+      return '<li id="ac-o' + i + '" role="option" aria-selected="false" data-i="' + i + '">' +
+             pin() + '<span><b>' + esc(it.main) + '</b>' + esc(it.rest) + '</span></li>';
+    }).join('') + '<li class="acFoot" role="presentation">Powered by Google</li>';
+    list.hidden = false;
+    input.setAttribute('aria-expanded','true');
+    active = -1;
+  }
+
+  function mark(){
+    var opts = list.querySelectorAll('li[role=option]');
+    opts.forEach(function(o,i){ o.setAttribute('aria-selected', i === active ? 'true' : 'false') });
+    if(active > -1){
+      input.setAttribute('aria-activedescendant','ac-o' + active);
+      opts[active].scrollIntoView({block:'nearest'});
+    } else {
+      input.removeAttribute('aria-activedescendant');
+    }
+  }
+
+  function search(q){
+    var mine = ++seq;
+    load().then(function(lib){
+      if(!lib || mine !== seq) return;
+      if(!token) newToken(lib);
+      return lib.AutocompleteSuggestion.fetchAutocompleteSuggestions({
+        input: q,
+        sessionToken: token,
+        includedRegionCodes: ['au'],
+        locationBias: BIAS,
+        language: 'en-AU'
+      }).then(function(res){
+        if(mine !== seq) return;
+        items = (res.suggestions || []).slice(0,4).map(function(sg){
+          var p = sg.placePrediction;
+          return {
+            main: p.mainText ? p.mainText.text : p.text.text,
+            rest: p.secondaryText ? p.secondaryText.text.replace(/,\s*Australia$/,'') : '',
+            place: p
+          };
+        });
+        paint();
+      });
+    }).catch(function(){ close() });
+  }
+
+  function choose(i){
+    var it = items[i]; if(!it) return;
+    var place = it.place.toPlace();
+    input.value = it.main + (it.rest ? ', ' + it.rest : '');
+    close();
+    var f = input.closest('.field'); if(f) f.classList.remove('bad');
+
+    /* fetchFields closes the session, which is what makes the
+       typing requests free. Reset the token straight after. */
+    place.fetchFields({fields:['formattedAddress','addressComponents','id']}).then(function(){
+      input.value = place.formattedAddress || input.value;
+      hPid.value  = place.id || '';
+      hSrc.value  = 'google';
+      (place.addressComponents || []).forEach(function(c){
+        var t = c.types || [];
+        if(t.indexOf('locality') > -1) hSub.value = c.longText || '';
+        if(t.indexOf('postal_code') > -1) hPost.value = c.shortText || '';
+        if(t.indexOf('administrative_area_level_1') > -1) hSt.value = c.shortText || '';
+      });
+    }).catch(function(){}).then(function(){ token = null });
+  }
+
+  input.addEventListener('focus', load, {once:true});
+
+  input.addEventListener('input', function(){
+    hSub.value = hPost.value = hSt.value = hPid.value = '';
+    hSrc.value = 'typed';
+    var q = input.value.trim();
+    clearTimeout(timer);
+    if(q.length < 4){ seq++; close(); return }
+    timer = setTimeout(function(){ search(q) }, 260);
+  });
+
+  input.addEventListener('keydown', function(e){
+    if(list.hidden) return;
+    if(e.key === 'ArrowDown'){ e.preventDefault(); active = Math.min(active + 1, items.length - 1); mark() }
+    else if(e.key === 'ArrowUp'){ e.preventDefault(); active = Math.max(active - 1, -1); mark() }
+    else if(e.key === 'Enter' && active > -1){ e.preventDefault(); choose(active) }
+    else if(e.key === 'Escape'){ close() }
+    else if(e.key === 'Tab'){ close() }
+  });
+
+  list.addEventListener('mousedown', function(e){
+    var li = e.target.closest('li[data-i]'); if(!li) return;
+    e.preventDefault(); choose(+li.dataset.i);
+  });
+
+  document.addEventListener('click', function(e){
+    if(!e.target.closest('.ac')) close();
   });
 })();
 </script>
