@@ -764,7 +764,17 @@ footer a:hover{color:var(--mist)}
         <div class="field"><label for="cm">Comments or questions</label>
           <textarea id="cm" name="comments" placeholder="Any questions about the service, or anything else you'd like to ask or tell us? Pop it here."></textarea></div>
 
-        <button class="pill lg" type="submit" style="width:100%;justify-content:space-between">Submit my enquiry
+        <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true"
+               style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
+
+        <p id="sendErr" role="alert" hidden
+           style="background:#FDF0EC;border-left:4px solid #B4472F;border-radius:12px;padding:16px 18px;
+                  font-size:15px;color:#8A3220;margin:0 0 18px">
+          Something went wrong sending that. Please try again, or call us on
+          <a href="tel:1300317701" style="color:#8A3220;font-weight:600;text-decoration:underline">1300&nbsp;317&nbsp;701</a>.
+        </p>
+
+        <button id="sendBtn" class="pill lg" type="submit" style="width:100%;justify-content:space-between">Submit my enquiry
           <i class="arw"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></i></button>
 
         <p class="privacy">We'll only use your details to respond to your enquiry and manage your service. See our <a href="/privacy-policy">Privacy Policy</a>. Prefer to talk? Call <a href="tel:1300317701">1300 317 701</a>.</p>
@@ -890,6 +900,10 @@ footer a:hover{color:var(--mist)}
   });
 
   /* ── form ─────────────────────────────────────────────── */
+  /* Formspree endpoint. Replace the hash with the one from the
+     form's Integration tab in the Strictly Bins Formspree account. */
+  var FORM_ENDPOINT='https://formspree.io/f/xyeyplve';
+
   var form=document.getElementById('enq'), card=document.getElementById('card');
   function mf(el,ok){var f=el.closest('.field'); if(f) f.classList.toggle('bad',!ok); return ok}
   function ms(id,ok){document.getElementById(id).classList.toggle('bad',!ok); return ok}
@@ -908,27 +922,50 @@ footer a:hover{color:var(--mist)}
     if(!ok){ bad.scrollIntoView({block:'center',behavior:reduce?'auto':'smooth'});
              if(bad.focus) bad.focus({preventScroll:true}); return }
 
-    /* ── BUILD NOTE ────────────────────────────────────────
-       POST this payload to the Google Sheets / Apps Script
-       endpoint, then fire the confirmation email from
-       hello@strictlybins.com.au. Reveal the thanks panel on
-       success. Front-end only right now. */
+    /* ── submission ────────────────────────────────────────
+       Posts to Formspree. The thanks panel and the GA4 event
+       only fire on a confirmed 200, so a failed send can never
+       tell someone we've got their enquiry when we haven't. */
     var payload=Object.fromEntries(new FormData(form).entries());
     payload.submitted_at=new Date().toISOString();
-    console.log('Strictly Bins enquiry',payload);
+    payload._subject='New enquiry — '+(payload.first_name||'')+' '+(payload.last_name||'')+
+                     (payload.address?' — '+payload.address:'');
 
-    /* GA4 conversion. Mark 'generate_lead' as a key event in
-       Admin > Events once the first hits come through. */
-    if(typeof gtag==='function'){
-      gtag('event','generate_lead',{
-        property_type:payload.property_type||'',
-        frequency:payload.frequency||'',
-        lead_source:payload.source||''
-      });
+    var btn=document.getElementById('sendBtn'),
+        err=document.getElementById('sendErr'),
+        label=btn.childNodes[0].nodeValue;
+
+    err.hidden=true;
+    btn.disabled=true; btn.style.opacity='.6'; btn.style.pointerEvents='none';
+    btn.childNodes[0].nodeValue='Sending\u2026';
+
+    function fail(){
+      btn.disabled=false; btn.style.opacity=''; btn.style.pointerEvents='';
+      btn.childNodes[0].nodeValue=label;
+      err.hidden=false;
+      err.scrollIntoView({block:'center',behavior:reduce?'auto':'smooth'});
     }
 
-    card.classList.add('done');
-    card.scrollIntoView({block:'center',behavior:reduce?'auto':'smooth'});
+    fetch(FORM_ENDPOINT,{
+      method:'POST',
+      headers:{'Content-Type':'application/json','Accept':'application/json'},
+      body:JSON.stringify(payload)
+    }).then(function(r){
+      if(!r.ok) throw new Error('http '+r.status);
+
+      /* GA4 conversion. Mark 'generate_lead' as a key event in
+         Admin > Events once the first hits come through. */
+      if(typeof gtag==='function'){
+        gtag('event','generate_lead',{
+          property_type:payload.property_type||'',
+          frequency:payload.frequency||'',
+          lead_source:payload.source||''
+        });
+      }
+
+      card.classList.add('done');
+      card.scrollIntoView({block:'center',behavior:reduce?'auto':'smooth'});
+    }).catch(fail);
   });
 })();
 </script>
