@@ -8,10 +8,25 @@
     { "source": "/drop", "destination": "/?utm_source=letterbox&utm_medium=print&utm_campaign=launch_2026", "permanent": false }
   ],
   "headers": [
-    { "source": "/(.*)\\.(svg|png|jpg|webp|woff2)", "headers": [
-      { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" } ] },
-
-    { "source": "/(bin|drop|join)", "headers": [
-      { "key": "Cache-Control", "value": "no-store, max-age=0" } ] }
+    {
+      "//": "Long cache at the Vercel edge, short cache in the browser. Vercel purges the edge on every deploy, so a new or corrected file goes live for everyone straight away. The browser re-checks after an hour, so a 404 served before a file existed can only strand for an hour rather than a year. These filenames are not content-hashed, so 'immutable' was never safe here.",
+      "source": "/(.*)\\.(svg|png|jpg|jpeg|webp|mp4|webm|ico)",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=3600, s-maxage=31536000, stale-while-revalidate=86400" }
+      ]
+    },
+    {
+      "//": "Fonts stay pinned. Their filenames change if the font does.",
+      "source": "/(.*)\\.(woff2|woff)",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
+      ]
+    },
+    {
+      "source": "/(bin|drop|join)",
+      "headers": [
+        { "key": "Cache-Control", "value": "no-store, max-age=0" }
+      ]
+    }
   ]
 }
