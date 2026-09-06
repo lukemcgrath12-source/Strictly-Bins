@@ -990,10 +990,10 @@ footer a:hover{color:var(--mist)}
    only, then set a daily quota cap in Cloud console.
    ════════════════════════════════════════════════════ */
 (function(){
-  var KEY = 'GOOGLE_MAPS_BROWSER_KEY';
+  var KEY = 'AIzaSyBg730yOE-eCNwcAzPlNvcIGm1tcgzpOYM';
 
   var input = document.getElementById('ad');
-  if(!input || !KEY || KEY === 'GOOGLE_MAPS_BROWSER_KEY') return;
+  if(!input || !KEY || KEY.indexOf('GOOGLE_MAPS') === 0) return;
 
   var list  = document.getElementById('ac-list'),
       hSub  = document.getElementById('ad-suburb'),
