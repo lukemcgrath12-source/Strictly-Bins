@@ -1002,9 +1002,16 @@ footer a:hover{color:var(--mist)}
       hPid  = document.getElementById('ad-place'),
       hSrc  = document.getElementById('ad-src');
 
-  /* Bias toward Georges River and Bayside without excluding
-     anyone. Out-of-area enquiries are still welcome. */
-  var BIAS = {center:{lat:-33.965, lng:151.115}, radius:12000};
+  /* Hard restriction to Greater Sydney. A bias only nudges the
+     ranking, so interstate streets with the same name still
+     surfaced. A restriction removes them from the results.
+     Widen this box if the service area ever grows. Nobody is
+     blocked either way: the field accepts free text, so an
+     out-of-area resident can still type an address and enquire. */
+  var BOUNDS = {
+    south: -34.25, west: 150.45,
+    north: -33.35, east: 151.45
+  };
 
   var places = null, token = null, items = [], active = -1, timer = null, seq = 0;
 
@@ -1084,7 +1091,7 @@ footer a:hover{color:var(--mist)}
         input: q,
         sessionToken: token,
         includedRegionCodes: ['au'],
-        locationBias: BIAS,
+        locationRestriction: BOUNDS,
         language: 'en-AU'
       }).then(function(res){
         if(mine !== seq) return;
