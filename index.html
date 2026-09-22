@@ -368,6 +368,11 @@ footer .logo{height:46px;width:89px;color:var(--mist);opacity:.92;margin-bottom:
 footer a{transition:color .2s var(--ease)}
 footer a:hover{color:var(--mist)}
 .fh{font-size:13px;font-weight:600;color:var(--grass);margin-bottom:16px}
+.social{list-style:none;display:flex;gap:10px;margin:24px 0 0;padding:0}
+.social a{display:grid;place-items:center;width:42px;height:42px;border-radius:50%;
+  border:1px solid rgba(197,233,196,.28);color:rgba(197,233,196,.88);
+  transition:background .2s var(--ease),border-color .2s var(--ease),color .2s var(--ease),transform .2s var(--ease)}
+.social a:hover{background:var(--grass);border-color:var(--grass);color:var(--deeper);transform:translateY(-2px)}
 .flist{list-style:none;margin:0;padding:0;display:grid;gap:11px}
 .legal{margin-top:52px;padding-top:26px;border-top:1px solid var(--line-dk);
   font-size:13.5px;opacity:.48;display:flex;flex-wrap:wrap;gap:8px 24px}
@@ -830,6 +835,17 @@ footer a:hover{color:var(--mist)}
       <div>
         <svg class="logo" role="img" aria-label="Strictly Bins"><use href="#sb-word"/></svg>
         <p style="max-width:34ch;margin:0">A local, father-and-son bin cleaning service for the St George area.</p>
+        <p class="fh" style="margin-top:26px;margin-bottom:12px">Follow us</p>
+        <ul class="social">
+          <li><a href="https://www.instagram.com/strictly_bins/" target="_blank" rel="noopener"
+                 aria-label="Strictly Bins on Instagram (opens in a new tab)">
+            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+              <rect x="3" y="3" width="18" height="18" rx="5.2"/>
+              <circle cx="12" cy="12" r="4"/>
+              <circle cx="17.3" cy="6.7" r="1.15" fill="currentColor" stroke="none"/>
+            </svg>
+          </a></li>
+        </ul>
       </div>
       <div>
         <p class="fh">Get in touch</p>
