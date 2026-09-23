@@ -924,18 +924,29 @@ footer a:hover{color:var(--mist)}
   function ms(id,ok){document.getElementById(id).classList.toggle('bad',!ok); return ok}
   form.addEventListener('input',function(e){var f=e.target.closest('.field'); if(f) f.classList.remove('bad')});
   form.addEventListener('change',function(e){var s=e.target.closest('fieldset'); if(s) s.classList.remove('bad')});
+  var FIELD_LABEL={fn:'first name',ln:'last name',ph:'phone',em:'email',ad:'address',
+                   'f-prop':'property type','f-freq':'frequency','f-src':'how they heard'};
+
   form.addEventListener('submit',function(e){
-    e.preventDefault(); var ok=true, bad=null;
+    e.preventDefault(); var ok=true, bad=null, missing=[];
+    function note(id){ missing.push(FIELD_LABEL[id]||id) }
+
     ['fn','ln','ad'].forEach(function(id){var el=document.getElementById(id);
-      if(!mf(el, el.value.trim().length>0)){ok=false; bad=bad||el}});
+      if(!mf(el, el.value.trim().length>0)){ok=false; bad=bad||el; note(id)}});
     var ph=document.getElementById('ph');
-    if(!mf(ph, ph.value.replace(/[^0-9]/g,'').length>=8)){ok=false; bad=bad||ph}
+    if(!mf(ph, ph.value.replace(/[^0-9]/g,'').length>=8)){ok=false; bad=bad||ph; note('ph')}
     var em=document.getElementById('em');
-    if(!mf(em, /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(em.value.trim()))){ok=false; bad=bad||em}
+    if(!mf(em, /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(em.value.trim()))){ok=false; bad=bad||em; note('em')}
     [['f-prop','property_type'],['f-freq','frequency'],['f-src','source']].forEach(function(p){
-      if(!ms(p[0], !!form.querySelector('input[name="'+p[1]+'"]:checked'))){ok=false; bad=bad||document.getElementById(p[0])}});
-    if(!ok){ bad.scrollIntoView({block:'center',behavior:reduce?'auto':'smooth'});
-             if(bad.focus) bad.focus({preventScroll:true}); return }
+      if(!ms(p[0], !!form.querySelector('input[name="'+p[1]+'"]:checked'))){ok=false; bad=bad||document.getElementById(p[0]); note(p[0])}});
+
+    if(!ok){
+      /* tried to send but the form pushed back: worth knowing which
+         field is doing the pushing, and how often */
+      if(window.sbTrack) window.sbTrack('form_error',{
+        fields:missing.slice(0,6).join(', '), field_count:missing.length});
+      bad.scrollIntoView({block:'center',behavior:reduce?'auto':'smooth'});
+      if(bad.focus) bad.focus({preventScroll:true}); return }
 
     /* ── submission ────────────────────────────────────────
        Posts to Formspree. The thanks panel and the GA4 event
@@ -954,7 +965,11 @@ footer a:hover{color:var(--mist)}
     btn.disabled=true; btn.style.opacity='.6'; btn.style.pointerEvents='none';
     btn.childNodes[0].nodeValue='Sending\u2026';
 
-    function fail(){
+    function fail(reason){
+      /* a completed enquiry we failed to deliver. This should be
+         zero. If it is not, the Formspree count and the GA4 count
+         will disagree and this event says why. */
+      if(window.sbTrack) window.sbTrack('form_send_error',{reason:String(reason||'unknown')});
       btn.disabled=false; btn.style.opacity=''; btn.style.pointerEvents='';
       btn.childNodes[0].nodeValue=label;
       err.hidden=false;
@@ -970,17 +985,19 @@ footer a:hover{color:var(--mist)}
 
       /* GA4 conversion. Mark 'generate_lead' as a key event in
          Admin > Events once the first hits come through. */
-      if(typeof gtag==='function'){
-        gtag('event','generate_lead',{
+      if(window.sbFormDone) window.sbFormDone();
+      if(window.sbTrack){
+        window.sbTrack('generate_lead',{
           property_type:payload.property_type||'',
           frequency:payload.frequency||'',
-          lead_source:payload.source||''
+          lead_source:payload.source||'',
+          address_source:payload.address_source||''
         });
       }
 
       card.classList.add('done');
       card.scrollIntoView({block:'center',behavior:reduce?'auto':'smooth'});
-    }).catch(fail);
+    }).catch(function(e){ fail(e && e.message) });
   });
 })();
 </script>
@@ -1173,6 +1190,114 @@ footer a:hover{color:var(--mist)}
   document.addEventListener('click', function(e){
     if(!e.target.closest('.ac')) close();
   });
+})();
+</script>
+
+<script>
+/* ═════ Strictly Bins · print channel funnel ═══════════
+   Everything needed to tell the bin tags and the letterbox
+   flyers apart in GA4, and to see what each one actually does.
+
+   Channel comes from utm_source on the landing URL, set by the
+   /bin and /drop redirects in vercel.json. It is held for the
+   session so events fired minutes later still carry it, and
+   stamped onto every event below as `channel`.
+
+   Device split is native to GA4 and needs no code.
+
+   Events, in funnel order:
+     section_view      how far down the page they get
+     form_view         the enquiry form came into view
+     form_start        first field touched
+     form_error        tried to send, validation stopped them
+     form_abandon      started the form, left without sending
+     form_send_error   valid enquiry we failed to deliver
+     generate_lead     enquiry away (mark as key event in GA4)
+   ════════════════════════════════════════════════ */
+(function(){
+
+  /* channel, sticky for the session. sessionStorage can throw in
+     private mode, so every touch of it is guarded. */
+  var CHANNEL='direct';
+  try{
+    var src=new URLSearchParams(location.search).get('utm_source');
+    if(src){ CHANNEL=src; sessionStorage.setItem('sb_channel',src); }
+    else { CHANNEL=sessionStorage.getItem('sb_channel')||'direct'; }
+  }catch(e){}
+
+  function track(name,params){
+    if(typeof gtag!=='function') return;
+    params=params||{}; params.channel=CHANNEL;
+    gtag('event',name,params);
+  }
+  window.sbTrack=track;
+
+  /* ── how far down the page they get ──────────────── */
+  if('IntersectionObserver' in window){
+    var seen={};
+    var sections=new IntersectionObserver(function(rows){
+      rows.forEach(function(r){
+        if(!r.isIntersecting) return;
+        var id=r.target.id;
+        if(!id||seen[id]) return;
+        seen[id]=1;
+        track('section_view',{section_id:id});
+        sections.unobserve(r.target);
+      });
+    },{threshold:.4});
+    ['service','how','pricing','about','enquiry','faq'].forEach(function(id){
+      var el=document.getElementById(id); if(el) sections.observe(el);
+    });
+
+    /* the form card itself, which is the step that matters */
+    var card=document.getElementById('card');
+    if(card){
+      var cardSeen=new IntersectionObserver(function(rows){
+        if(!rows[0].isIntersecting) return;
+        track('form_view');
+        cardSeen.disconnect();
+      },{threshold:.35});
+      cardSeen.observe(card);
+    }
+  }
+
+  /* ── form engagement and drop-off ───────────────── */
+  var form=document.getElementById('enq');
+  if(!form) return;
+
+  var started=false, finished=false, reported=false, lastField='';
+  var LABEL={fn:'first name',ln:'last name',ph:'phone',em:'email',
+             ad:'address',cm:'comments'};
+
+  function nameOf(el){
+    if(!el) return '';
+    if(el.type==='radio'&&el.name) return el.name.replace(/_/g,' ');
+    return LABEL[el.id]||el.name||el.id||'';
+  }
+
+  form.addEventListener('focusin',function(e){
+    var n=nameOf(e.target);
+    if(!n) return;
+    lastField=n;
+    if(!started){ started=true; track('form_start'); }
+  });
+  form.addEventListener('change',function(e){
+    var n=nameOf(e.target); if(n) lastField=n;
+  });
+
+  window.sbFormDone=function(){ finished=true };
+
+  /* they started filling it in and then left. lastField is where
+     they got to, which is the answer to "where do people drop off". */
+  function abandoned(){
+    if(!started||finished||reported) return;
+    reported=true;
+    track('form_abandon',{last_field:lastField||'unknown'});
+  }
+  document.addEventListener('visibilitychange',function(){
+    if(document.visibilityState==='hidden') abandoned();
+  });
+  window.addEventListener('pagehide',abandoned);
 })();
 </script>
 
