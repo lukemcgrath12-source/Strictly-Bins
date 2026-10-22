@@ -28,7 +28,7 @@
 <script type="application/ld+json">
 {
   "@context":"https://schema.org","@type":"LocalBusiness","name":"Strictly Bins",
-  "description":"Residential bin cleaning and bin management subscription service. We attend after council collection, clean, disinfect and deodorise your bins and return them neatly to your property edge.",
+  "description":"Residential bin cleaning and bin management service. We attend after council collection, clean, disinfect and deodorise your bins and return them neatly to your property edge.",
   "url":"https://strictlybins.com.au/","telephone":"+611300317701","email":"hello@strictlybins.com.au","priceRange":"$$",
   "areaServed":[{"@type":"AdministrativeArea","name":"Georges River Council"},{"@type":"AdministrativeArea","name":"Bayside Council"},{"@type":"AdministrativeArea","name":"Sutherland Shire Council"}],
   "address":{"@type":"PostalAddress","addressRegion":"NSW","addressCountry":"AU"}
@@ -170,7 +170,28 @@ p{margin:0 0 1em}p:last-child{margin-bottom:0}
 .heroBtns{display:flex;flex-wrap:wrap;gap:12px}
 
 .kerbHolder{position:relative;z-index:1;margin-top:auto;flex:none;min-height:0;pointer-events:none}
-.kerb{display:block;width:100%;height:clamp(168px,23vh,248px)}
+.kerb{display:block;width:100%;height:clamp(56px,8vh,84px)}
+
+/* hero before/after proof */
+.heroBody{gap:clamp(32px,4vw,56px)}
+.heroCopy{display:flex;flex-direction:column}
+.proofHead{font-family:var(--sans);font-weight:700;font-size:clamp(22px,2.4vw,30px);letter-spacing:-.025em;line-height:1.15;color:#fff;margin:0 0 12px}
+.proofHead--after{color:var(--grass);margin-top:clamp(16px,2vh,24px)}
+.proofRow{position:relative;display:grid;grid-template-columns:1fr 1fr;gap:clamp(8px,1vw,14px)}
+.proofRow picture,.proofRow img{display:block;width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:clamp(12px,1.4vw,18px)}
+.proofRow img{box-shadow:0 1px 2px rgba(3,33,12,.25),0 14px 34px -14px rgba(3,33,12,.55)}
+.proofTag{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+  background:var(--mist);color:var(--deep);font-family:var(--sans);font-weight:800;
+  font-size:clamp(12px,1.1vw,15px);letter-spacing:.06em;text-transform:uppercase;
+  padding:7px 14px;border-radius:100px;box-shadow:0 6px 18px -6px rgba(3,33,12,.6);pointer-events:none}
+@media(max-width:939px){
+  .heroCard{height:auto;max-height:none}
+}
+@media(min-width:940px){
+  .heroBody{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);align-items:center}
+  .heroCard{height:auto;max-height:none;min-height:calc(100svh - var(--pad)*2)}
+  .heroProof{max-width:540px;justify-self:end;width:100%}
+}
 @keyframes drift{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
 
 /* ── marquee band ─────────────────────────────────────────── */
@@ -400,12 +421,13 @@ footer a:hover{color:var(--mist)}
 .anim [data-rev]{opacity:0;transform:translateY(22px)}
 .anim [data-rev].in{opacity:1;transform:none;
   transition:opacity .7s var(--ease),transform .7s var(--ease)}
-.anim .heroBody>*{opacity:0;animation:rise .82s var(--ease) both}
-.anim .heroBody>*:nth-child(1){animation-delay:.10s}
-.anim .heroBody>*:nth-child(2){animation-delay:.18s}
-.anim .heroBody>*:nth-child(3){animation-delay:.28s}
-.anim .heroBody>*:nth-child(4){animation-delay:.36s}
-.anim .heroBody>*:nth-child(5){animation-delay:.44s}
+.anim .heroCopy>*,.anim .heroProof{opacity:0;animation:rise .82s var(--ease) both}
+.anim .heroProof{animation-delay:.5s}
+.anim .heroCopy>*:nth-child(1){animation-delay:.10s}
+.anim .heroCopy>*:nth-child(2){animation-delay:.18s}
+.anim .heroCopy>*:nth-child(3){animation-delay:.28s}
+.anim .heroCopy>*:nth-child(4){animation-delay:.36s}
+.anim .heroCopy>*:nth-child(5){animation-delay:.44s}
 .anim .marquee{opacity:0;animation:rise .7s var(--ease) 1.9s both}
 
 /* hero scene: kerb wipes out from centre, bins rise from behind it,
@@ -416,8 +438,6 @@ footer a:hover{color:var(--mist)}
 @keyframes twinkle{0%,100%{opacity:.72;transform:scale(1)}50%{opacity:.3;transform:scale(.84)}}
 .anim .kerbLine{transform-box:fill-box;transform-origin:50% 50%;
   animation:wipe 1s var(--ease) var(--k,0s) both}
-.anim .binDrop{animation:binIn .95s cubic-bezier(.26,1.28,.5,1) var(--b,0s) both}
-.anim .binFloat{animation:drift 7s ease-in-out 2.3s infinite;transform-origin:center}
 .anim .spark{transform-box:fill-box;transform-origin:50% 50%;opacity:0;
   animation:pop .55s var(--ease) var(--d,0s) forwards,
             twinkle 5s ease-in-out calc(var(--d,0s) + .55s) infinite}
@@ -462,15 +482,32 @@ footer a:hover{color:var(--mist)}
     </div>
 
     <div class="heroBody">
-      <p class="eyebrow" style="color:rgba(197,233,196,.6)">Bin cleaning &amp; management</p>
-      <h1>Bin Day…<br><em>Sorted.</em></h1>
-      <p class="lede">After your bins are emptied, we take care of everything else.</p>
-      <div class="heroBtns">
-        <a class="pill on-mist lg" href="#enquiry">Submit your enquiry
-          <i class="arw"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></i></a>
-        <a class="plain on-mistb" href="tel:1300317701">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg>
-          1300 317 701</a>
+      <div class="heroCopy">
+        <p class="eyebrow" style="color:rgba(197,233,196,.6)">Bin cleaning &amp; management</p>
+        <h1>Bin Day…<br><em>Sorted.</em></h1>
+        <p class="lede">After your bins are emptied, we take care of everything else.</p>
+        <div class="heroBtns">
+          <a class="pill on-mist lg" href="#enquiry">Submit your enquiry
+            <i class="arw"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></i></a>
+          <a class="plain on-mistb" href="tel:1300317701">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg>
+            1300 317 701</a>
+        </div>
+      
+      </div>
+      <div class="heroProof">
+        <h2 class="proofHead">Look familiar?</h2>
+        <div class="proofRow">
+          <picture><source srcset="/media/cleaning-before.webp" type="image/webp"><img src="/media/cleaning-before.jpg" alt="Dirty, stained bottom of a wheelie bin before cleaning" width="900" height="900" loading="eager" decoding="async"></picture>
+          <picture><source srcset="/media/placement-before.webp" type="image/webp"><img src="/media/placement-before.jpg" alt="Wheelie bins left knocked over on the verge with lids open" width="900" height="900" loading="eager" decoding="async"></picture>
+          <span class="proofTag">Before</span>
+        </div>
+        <h2 class="proofHead proofHead--after">We'll take care of it.</h2>
+        <div class="proofRow">
+          <picture><source srcset="/media/cleaning-after.webp" type="image/webp"><img src="/media/cleaning-after.jpg" alt="The same bin bottom, clean after a Strictly Bins wash" width="900" height="900" loading="eager" decoding="async"></picture>
+          <picture><source srcset="/media/placement-after.webp" type="image/webp"><img src="/media/placement-after.jpg" alt="Clean bins returned upright and neatly lined up, lids closed" width="900" height="900" loading="eager" decoding="async"></picture>
+          <span class="proofTag">After</span>
+        </div>
       </div>
     </div>
 
@@ -487,27 +524,7 @@ footer a:hover{color:var(--mist)}
          </div>
          ═════════════════════════════════════════════════════════════ -->
     <div class="kerbHolder">
-      <svg class="kerb" viewBox="0 0 1900 250" preserveAspectRatio="xMidYMax slice" role="img" aria-label="Two clean bins standing upright at a property edge with their lids closed">
-        <defs>
-          <g id="bin">
-            <path d="M13 34 L22 168 a10 10 0 0 0 10 9.4 L86 177.4 a10 10 0 0 0 10-9.4 L105 34 Z" fill="#62C273"/>
-            <path d="M13 34 L17.5 100 L100.5 100 L105 34 Z" fill="#7FD08C"/>
-            <rect x="4" y="14" width="110" height="21" rx="10.5" fill="#C5E9C4"/>
-            <path d="M104 15 h14 a7 7 0 0 1 0 14 h-6" fill="none" stroke="#C5E9C4" stroke-width="9" stroke-linecap="round"/>
-            <circle cx="88" cy="178" r="14" fill="#03210C"/>
-            <circle cx="88" cy="178" r="5.5" fill="#62C273"/>
-          </g>
-        </defs>
-        <g fill="#C5E9C4">
-          <path class="spark" style="--d:1.75s" d="M700 44 l4.6 11.4 11.4 4.6 -11.4 4.6 -4.6 11.4 -4.6 -11.4 -11.4 -4.6 11.4 -4.6Z"/>
-          <path class="spark" style="--d:1.95s" d="M1252 34 l3.4 8.6 8.6 3.4 -8.6 3.4 -3.4 8.6 -3.4 -8.6 -8.6 -3.4 8.6 -3.4Z"/>
-          <path class="spark" style="--d:2.10s" d="M646 100 l2.6 6.4 6.4 2.6 -6.4 2.6 -2.6 6.4 -2.6 -6.4 -6.4 -2.6 6.4 -2.6Z"/>
-          <path class="spark" style="--d:1.88s" d="M1320 82 l2.6 6.4 6.4 2.6 -6.4 2.6 -2.6 6.4 -2.6 -6.4 -6.4 -2.6 6.4 -2.6Z"/>
-        </g>
-        <g class="binFloat">
-          <g class="binDrop" style="--b:1.02s"><g transform="translate(848,4) scale(.82)"><use href="#bin"/></g></g>
-          <g class="binDrop" style="--b:1.16s"><g transform="translate(958,4) scale(.82)"><use href="#bin"/></g></g>
-        </g>
+      <svg class="kerb" viewBox="0 150 1900 100" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
         <rect class="kerbLine" style="--k:.52s" x="0" y="156" width="1900" height="14" fill="#C5E9C4"/>
         <rect class="kerbLine" style="--k:.60s" x="0" y="170" width="1900" height="22" fill="#8FC79A"/>
         <rect class="kerbLine" style="--k:.68s" x="0" y="192" width="1900" height="58" fill="#03210C"/>
@@ -833,7 +850,7 @@ footer a:hover{color:var(--mist)}
     <div class="fgrid">
       <div>
         <svg class="logo" role="img" aria-label="Strictly Bins"><use href="#sb-word"/></svg>
-        <p style="max-width:34ch;margin:0">A local, father-and-son bin cleaning service for the St George, Bayside and Sutherland Shire council areas.</p>
+        <p style="max-width:34ch;margin:0">A local, father-and-son bin cleaning service for the Georges River, Bayside and Sutherland Shire council areas.</p>
         <p class="fh" style="margin-top:26px;margin-bottom:12px">Follow us</p>
         <ul class="social">
           <li><a href="https://www.instagram.com/strictly_bins/" target="_blank" rel="noopener"
