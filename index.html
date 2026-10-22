@@ -175,22 +175,29 @@ p{margin:0 0 1em}p:last-child{margin-bottom:0}
 /* hero before/after proof */
 .heroBody{gap:clamp(32px,4vw,56px)}
 .heroCopy{display:flex;flex-direction:column}
-.proofHead{font-family:var(--sans);font-weight:700;font-size:clamp(22px,2.4vw,30px);letter-spacing:-.025em;line-height:1.15;color:#fff;margin:0 0 12px}
-.proofHead--after{color:var(--grass);margin-top:clamp(16px,2vh,24px)}
-.proofRow{position:relative;display:grid;grid-template-columns:1fr 1fr;gap:clamp(8px,1vw,14px)}
-.proofRow picture,.proofRow img{display:block;width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:clamp(12px,1.4vw,18px)}
-.proofRow img{box-shadow:0 1px 2px rgba(3,33,12,.25),0 14px 34px -14px rgba(3,33,12,.55)}
-.proofTag{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
-  background:var(--mist);color:var(--deep);font-family:var(--sans);font-weight:800;
-  font-size:clamp(12px,1.1vw,15px);letter-spacing:.06em;text-transform:uppercase;
-  padding:7px 14px;border-radius:100px;box-shadow:0 6px 18px -6px rgba(3,33,12,.6);pointer-events:none}
+.heroProof{position:relative;padding:clamp(14px,1.6vw,22px);border-radius:clamp(20px,2vw,28px);
+  background:linear-gradient(160deg,rgba(255,255,255,.07),rgba(3,33,12,.28));
+  border:1px solid var(--line-dk);
+  box-shadow:inset 0 1px 0 rgba(197,233,196,.08),0 30px 60px -30px rgba(3,33,12,.7)}
+.proofTop{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0 2px 12px}
+.proofHead{font-family:var(--sans);font-weight:700;font-size:clamp(20px,2.1vw,27px);letter-spacing:-.025em;line-height:1.15;color:#fff;margin:0}
+.proofHead--after{color:var(--grass)}
+.proofTag{flex:none;font-family:var(--sans);font-weight:800;font-size:12px;letter-spacing:.09em;text-transform:uppercase;
+  padding:6px 12px;border-radius:100px;color:var(--mist);border:1px solid rgba(197,233,196,.32)}
+.proofTag--after{background:var(--mist);color:var(--deep);border-color:var(--mist)}
+.proofRow{display:grid;grid-template-columns:1fr 1fr;gap:clamp(8px,.9vw,12px)}
+.proofRow picture,.proofRow img{display:block;width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:clamp(12px,1.3vw,16px)}
+.proofRow img{box-shadow:0 1px 2px rgba(3,33,12,.3),0 16px 30px -18px rgba(3,33,12,.8)}
+.proofRow--after img{outline:2px solid rgba(98,194,115,.55);outline-offset:-2px}
+.proofArrow{display:grid;place-items:center;width:34px;height:34px;margin:clamp(10px,1.4vh,16px) auto;
+  border-radius:50%;background:var(--grass);color:var(--deeper);box-shadow:0 0 0 6px rgba(98,194,115,.14)}
 @media(max-width:939px){
   .heroCard{height:auto;max-height:none}
 }
 @media(min-width:940px){
   .heroBody{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);align-items:center}
   .heroCard{height:auto;max-height:none;min-height:calc(100svh - var(--pad)*2)}
-  .heroProof{max-width:540px;justify-self:end;width:100%}
+  .heroProof{max-width:520px;justify-self:end;width:100%}
 }
 @keyframes drift{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
 
@@ -496,17 +503,16 @@ footer a:hover{color:var(--mist)}
       
       </div>
       <div class="heroProof">
-        <h2 class="proofHead">Look familiar?</h2>
-        <div class="proofRow">
+        <div class="proofTop"><h2 class="proofHead">Look familiar?</h2><span class="proofTag">Before</span></div>
+        <div class="proofRow proofRow--before">
           <picture><source srcset="/media/cleaning-before.webp" type="image/webp"><img src="/media/cleaning-before.jpg" alt="Dirty, stained bottom of a wheelie bin before cleaning" width="900" height="900" loading="eager" decoding="async"></picture>
           <picture><source srcset="/media/placement-before.webp" type="image/webp"><img src="/media/placement-before.jpg" alt="Wheelie bins left knocked over on the verge with lids open" width="900" height="900" loading="eager" decoding="async"></picture>
-          <span class="proofTag">Before</span>
         </div>
-        <h2 class="proofHead proofHead--after">We'll take care of it.</h2>
-        <div class="proofRow">
+        <div class="proofArrow" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M6 13l6 6 6-6"/></svg></div>
+        <div class="proofTop"><h2 class="proofHead proofHead--after">We'll take care of it.</h2><span class="proofTag proofTag--after">After</span></div>
+        <div class="proofRow proofRow--after">
           <picture><source srcset="/media/cleaning-after.webp" type="image/webp"><img src="/media/cleaning-after.jpg" alt="The same bin bottom, clean after a Strictly Bins wash" width="900" height="900" loading="eager" decoding="async"></picture>
           <picture><source srcset="/media/placement-after.webp" type="image/webp"><img src="/media/placement-after.jpg" alt="Clean bins returned upright and neatly lined up, lids closed" width="900" height="900" loading="eager" decoding="async"></picture>
-          <span class="proofTag">After</span>
         </div>
       </div>
     </div>
