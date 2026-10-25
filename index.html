@@ -774,24 +774,8 @@ footer a:hover{color:var(--mist)}
             <label class="opt"><input type="radio" name="property_type" value="Commercial"><span>Commercial</span></label>
           </div><span class="err">Please choose your property type</span></fieldset>
 
-        <fieldset id="f-freq"><legend>Preferred plan<span class="req">*</span></legend>
-          <div class="opts">
-            <label class="opt"><input type="radio" name="plan" value="Standard (every 5 weeks)" required><span>Standard (every 5 weeks)</span></label>
-            <label class="opt"><input type="radio" name="plan" value="Plus (every 3 weeks)"><span>Plus (every 3 weeks)</span></label>
-            <label class="opt"><input type="radio" name="plan" value="Not sure/Other"><span>Not sure/Other</span></label>
-          </div><span class="err">Please choose a plan</span></fieldset>
-
-        <fieldset id="f-src"><legend>How did you hear about us?<span class="req">*</span></legend>
-          <div class="opts">
-            <label class="opt"><input type="radio" name="source" value="Bin Flyer" required><span>Bin flyer</span></label>
-            <label class="opt"><input type="radio" name="source" value="Letterbox Flyer"><span>Letterbox flyer</span></label>
-            <label class="opt"><input type="radio" name="source" value="Advertisement/Messageboard"><span>Advertisement or messageboard</span></label>
-            <label class="opt"><input type="radio" name="source" value="Word of Mouth"><span>Word of mouth</span></label>
-            <label class="opt"><input type="radio" name="source" value="Other"><span>Other</span></label>
-          </div><span class="err">Please let us know how you found us</span></fieldset>
-
-        <div class="field"><label for="cm">Comments or questions</label>
-          <textarea id="cm" name="comments" placeholder="Any questions about the service, or anything else you'd like to ask or tell us? Pop it here."></textarea></div>
+        <div class="field"><label for="cm">Anything you want to tell or ask us? <span style="font-weight:400;opacity:.6">(Optional)</span></label>
+          <textarea id="cm" name="comments" placeholder="Pop it here."></textarea></div>
 
         <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true"
                style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
@@ -926,14 +910,31 @@ footer a:hover{color:var(--mist)}
   var snav = document.getElementById('snav'),
       sbar = document.getElementById('sbar'),
       hero = document.querySelector('.heroCard');
+  /* the mobile bar hides while the enquiry form is on screen or being
+     filled in, and for good once it has been sent, so it never sits
+     over the fields or the keyboard */
+  var pastHero = false, atForm = false, typing = false;
+  window.sbFormSent = false;
+  window.sbBar = function(){
+    sbar.classList.toggle('show', pastHero && !atForm && !typing && !window.sbFormSent);
+  };
+  var enqSec = document.getElementById('enquiry'), enqForm = document.getElementById('enq');
+  if(enqForm){
+    enqForm.addEventListener('focusin', function(){ typing = true; window.sbBar(); });
+    enqForm.addEventListener('focusout', function(){ setTimeout(function(){
+      typing = enqForm.contains(document.activeElement); window.sbBar(); }, 50); });
+  }
   if(hero && 'IntersectionObserver' in window){
     new IntersectionObserver(function(e){
-      var past = !e[0].isIntersecting;
-      snav.classList.toggle('show', past);
-      sbar.classList.toggle('show', past);
+      pastHero = !e[0].isIntersecting;
+      snav.classList.toggle('show', pastHero);
+      window.sbBar();
     },{rootMargin:'-72px 0px 0px 0px'}).observe(hero);
+    if(enqSec) new IntersectionObserver(function(e){
+      atForm = e[0].isIntersecting; window.sbBar();
+    }).observe(enqSec);
   }else{
-    snav.classList.add('show'); sbar.classList.add('show');
+    pastHero = true; snav.classList.add('show'); window.sbBar();
   }
 
   /* ── one FAQ open at a time ───────────────────────────── */
@@ -956,7 +957,7 @@ footer a:hover{color:var(--mist)}
   form.addEventListener('input',function(e){var f=e.target.closest('.field'); if(f) f.classList.remove('bad')});
   form.addEventListener('change',function(e){var s=e.target.closest('fieldset'); if(s) s.classList.remove('bad')});
   var FIELD_LABEL={fn:'first name',ln:'last name',ph:'phone',em:'email',ad:'address',
-                   'f-prop':'property type','f-freq':'plan','f-src':'how they heard'};
+                   'f-prop':'property type'};
 
   form.addEventListener('submit',function(e){
     e.preventDefault(); var ok=true, bad=null, missing=[];
@@ -968,7 +969,7 @@ footer a:hover{color:var(--mist)}
     if(!mf(ph, ph.value.replace(/[^0-9]/g,'').length>=8)){ok=false; bad=bad||ph; note('ph')}
     var em=document.getElementById('em');
     if(!mf(em, /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(em.value.trim()))){ok=false; bad=bad||em; note('em')}
-    [['f-prop','property_type'],['f-freq','plan'],['f-src','source']].forEach(function(p){
+    [['f-prop','property_type']].forEach(function(p){
       if(!ms(p[0], !!form.querySelector('input[name="'+p[1]+'"]:checked'))){ok=false; bad=bad||document.getElementById(p[0]); note(p[0])}});
 
     if(!ok){
@@ -1020,12 +1021,11 @@ footer a:hover{color:var(--mist)}
       if(window.sbTrack){
         window.sbTrack('generate_lead',{
           property_type:payload.property_type||'',
-          frequency:payload.plan||'',
-          lead_source:payload.source||'',
           address_source:payload.address_source||''
         });
       }
 
+      window.sbFormSent = true; if(window.sbBar) window.sbBar();
       card.classList.add('done');
       card.scrollIntoView({block:'center',behavior:reduce?'auto':'smooth'});
     }).catch(function(e){ fail(e && e.message) });
