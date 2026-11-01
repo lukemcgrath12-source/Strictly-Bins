@@ -426,6 +426,36 @@ footer a:hover{color:var(--mist)}
 .skip{position:absolute;left:-9999px}
 .skip:focus{left:14px;top:14px;z-index:99;background:#fff;padding:12px 20px;border-radius:10px}
 
+
+/* ── reviews carousel ─────────────────────────────────────── */
+#reviews{background:var(--bg)}
+.rvHead{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;margin-bottom:clamp(28px,3.6vw,44px)}
+.rvNav{display:flex;gap:10px;flex:none}
+.rvBtn{width:48px;height:48px;border-radius:50%;border:1.5px solid var(--line);background:#fff;color:var(--forest);display:grid;place-items:center;cursor:pointer;
+  box-shadow:0 1px 2px rgba(6,46,19,.06),0 10px 22px -14px rgba(6,46,19,.35);
+  transition:transform .3s cubic-bezier(.34,1.56,.64,1),background-color .2s,color .2s,border-color .2s}
+.rvBtn:hover{background:var(--forest);color:#fff;border-color:var(--forest);transform:translateY(-2px)}
+.rvBtn:active{transform:scale(.94)}
+.rvBtn:focus-visible{outline:2px solid var(--grass);outline-offset:3px}
+.rvBtn[disabled]{opacity:.35;pointer-events:none}
+.rvViewport{margin-inline:calc(var(--gut) * -1)}
+.rvTrack{list-style:none;margin:0;padding:6px var(--gut) 26px;display:flex;gap:clamp(14px,1.6vw,20px);
+  overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding-inline:var(--gut);scrollbar-width:none;overscroll-behavior-x:contain}
+.rvTrack::-webkit-scrollbar{display:none}
+.rvTrack:focus-visible{outline:2px solid var(--grass);outline-offset:-2px;border-radius:18px}
+.rvCard{flex:0 0 min(86vw,380px);scroll-snap-align:start;background:#fff;border:1px solid var(--line);border-radius:20px;
+  padding:clamp(22px,2.4vw,30px);display:flex;flex-direction:column;
+  box-shadow:0 1px 2px rgba(6,46,19,.05),0 22px 44px -30px rgba(6,46,19,.4)}
+.rvTop{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:18px}
+.rvTag{background:var(--mist);color:var(--deep);font-family:var(--display);font-weight:800;font-size:13px;letter-spacing:.02em;text-transform:uppercase;padding:5px 12px 3px;border-radius:8px}
+.rvStars{display:flex;gap:2px}
+.rvStars svg{width:17px;height:17px;fill:#F5B301}
+.rvText{margin:0 0 22px;font-size:17px;line-height:1.55;font-weight:500;font-style:italic;color:var(--deep);position:relative;padding-top:30px;flex:1}
+.rvText::before{content:"\201C";position:absolute;top:-14px;left:-2px;font-family:var(--display);font-style:normal;font-size:72px;line-height:1;color:var(--grass)}
+.rvText--long{font-size:15px}
+.rvName{margin:0;padding-top:16px;border-top:1px solid var(--line);font-weight:600;color:var(--forest);font-size:15px}
+@media(max-width:600px){.rvNav{display:none}}
+
 /* ── motion, only when the browser allows it ──────────────── */
 @keyframes rise{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
 .anim [data-rev]{opacity:0;transform:translateY(22px)}
@@ -723,6 +753,61 @@ footer a:hover{color:var(--mist)}
         <p>When you call, you'll speak to one of us, not a call centre.</p>
         <p style="margin-top:20px;font-weight:600;color:var(--forest);font-size:15px">Local · Fully insured</p>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ REVIEWS ═══════ -->
+<section id="reviews" aria-labelledby="reviewsHead">
+  <div class="wrap">
+    <div class="rvHead" data-rev>
+      <div>
+        <p class="eyebrow">What the neighbours say</p>
+        <h2 id="reviewsHead">Straight from Google.</h2>
+      </div>
+      <div class="rvNav">
+        <button class="rvBtn" type="button" data-dir="-1" aria-label="Previous reviews"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></button>
+        <button class="rvBtn" type="button" data-dir="1" aria-label="Next reviews"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+      </div>
+    </div>
+    <div class="rvViewport" data-rev>
+      <ul class="rvTrack" id="rvTrack" tabindex="0" aria-label="Customer reviews from Google">
+        <li class="rvCard" role="group" aria-roledescription="review" aria-label="Review 1 of 7">
+          <div class="rvTop"><span class="rvTag">Google review</span><span class="rvStars" role="img" aria-label="5 out of 5 stars"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.9 6 6.6.8-4.9 4.6 1.3 6.5L12 17.3l-5.9 3.2 1.3-6.5L2.5 9.4l6.6-.8z"/></svg><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.9 6 6.6.8-4.9 4.6 1.3 6.5L12 17.3l-5.9 3.2 1.3-6.5L2.5 9.4l6.6-.8z"/></svg><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.9 6 6.6.8-4.9 4.6 1.3 6.5L12 17.3l-5.9 3.2 1.3-6.5L2.5 9.4l6.6-.8z"/></svg><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.9 6 6.6.8-4.9 4.6 1.3 6.5L12 17.3l-5.9 3.2 1.3-6.5L2.5 9.4l6.6-.8z"/></svg><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.9 6 6.6.8-4.9 4.6 1.3 6.5L12 17.3l-5.9 3.2 1.3-6.5L2.5 9.4l6.6-.8z"/></svg></span></div>
+          <blockquote class="rvText">The best of the best! Impeccable work, immediately booked for regular cleans every few weeks, service of father and son business was amazing and never thought I would gladly sniff my bins and enjoy the smell! 1000/10!</blockquote>
+          <p class="rvName">Amanda</p>
+        </li>
+        <li class="rvCard" role="group" aria-roledescription="review" aria-label="Review 2 of 7">
+          <div class="rvTop"><span class="rvTag">Google review</span><span class="rvStars" role="img" aria-label="5 out of 5 stars"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.9 6 6.6.8-4.9 4.6 1.3 6.5L12 17.3l-5.9 3.2 1.3-6.5L2.5 9.4l6.6-.8z"/></svg><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.9 6 6.6.8-4.9 4.6 1.3 6.5L12 17.3l-5.9 3.2 1.3-6.5L2.5 9.4l6.6-.8z"/></svg><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.9 6 6.6.8-4.9 4.6 1.3 6.5L12 17.3l-5.9 3.2 1.3-6.5L2.5 9.4l6.6-.8z"/></svg><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.9 6 6.6.8-4.9 4.6 1.3 6.5L12 17.3l-5.9 3.2 1.3-6.5L2.5 9.4l6.6-.8z"/></svg><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.9 6 6.6.8-4.9 4.6 1.3 6.5L12 17.3l-5.9 3.2 1.3-6.5L2.5 9.4l6.6-.8z"/></svg></span></div>
+          <blockquote class="rvText rvText--long">Thank you Simon and Michael from Strictly Bins! I purchased a new duplex and my bins were trashed with building materials during the build. Recently, someone decided to dump their old paint and other rubbish in my bins late at night. I found their brochure in my letterbox and called Strictly Bins, and they were amazing. They cleaned my bins, removed the old paint and deodorised them. My bins look like new again. Thank you Simon &amp; Michael. Love your service.</blockquote>
+          <p class="rvName">RSZ</p>
+        </li>
+        <li class="rvCard" role="group" aria-roledescription="review" aria-label="Review 3 of 7">
+          <div class="rvTop"><span class="rvTag">Google review</span><span class="rvStars" role="img" aria-label="5 out of 5 stars"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.9 6 6.6.8-4.9 4.6 1.3 6.5L12 17.3l-5.9 3.2 1.3-6.5L2.5 9.4l6.6-.8z"/></svg><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.9 6 6.6.8-4.9 4.6 1.3 6.5L12 17.3l-5.9 3.2 1.3-6.5L2.5 9.4l6.6-.8z"/></svg><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.9 6 6.6.8-4.9 4.6 1.3 6.5L12 17.3l-5.9 3.2 1.3-6.5L2.5 9.4l6.6-.8z"/></svg><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.9 6 6.6.8-4.9 4.6 1.3 6.5L12 17.3l-5.9 3.2 1.3-6.5L2.5 9.4l6.6-.8z"/></svg><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.9 6 6.6.8-4.9 4.6 1.3 6.5L12 17.3l-5.9 3.2 1.3-6.5L2.5 9.4l6.6-.8z"/></svg></span></div>
+          <blockquote class="rvText">Great pair of guys and a great service desperately needed. Didn’t realise how bad my bins had become until I saw them clean!</blockquote>
+          <p class="rvName">Michael</p>
+        </li>
+        <li class="rvCard" role="group" aria-roledescription="review" aria-label="Review 4 of 7">
+          <div class="rvTop"><span class="rvTag">Google review</span><span class="rvStars" role="img" aria-label="5 out of 5 stars"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.9 6 6.6.8-4.9 4.6 1.3 6.5L12 17.3l-5.9 3.2 1.3-6.5L2.5 9.4l6.6-.8z"/></svg><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.9 6 6.6.8-4.9 4.6 1.3 6.5L12 17.3l-5.9 3.2 1.3-6.5L2.5 9.4l6.6-.8z"/></svg><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.9 6 6.6.8-4.9 4.6 1.3 6.5L12 17.3l-5.9 3.2 1.3-6.5L2.5 9.4l6.6-.8z"/></svg><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.9 6 6.6.8-4.9 4.6 1.3 6.5L12 17.3l-5.9 3.2 1.3-6.5L2.5 9.4l6.6-.8z"/></svg><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.9 6 6.6.8-4.9 4.6 1.3 6.5L12 17.3l-5.9 3.2 1.3-6.5L2.5 9.4l6.6-.8z"/></svg></span></div>
+          <blockquote class="rvText rvText--long">Today I had my Red and Yellow Bin clean service from Simon and Michael at Strictly Bins. Wow! I did not realise how dirty my bins were. They are now beautiful and clean and smell amazing. It’s wonderful to see this company has such high standards from day one. What a great convenient service, picked up from the street, thoroughly washed and sanitised then neatly placed off the kerb. Incredibly convenient and highly recommended. Thank you boys, wishing your business every success, you have certainly gained a loyal customer!</blockquote>
+          <p class="rvName">Voula</p>
+        </li>
+        <li class="rvCard" role="group" aria-roledescription="review" aria-label="Review 5 of 7">
+          <div class="rvTop"><span class="rvTag">Google review</span><span class="rvStars" role="img" aria-label="5 out of 5 stars"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.9 6 6.6.8-4.9 4.6 1.3 6.5L12 17.3l-5.9 3.2 1.3-6.5L2.5 9.4l6.6-.8z"/></svg><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.9 6 6.6.8-4.9 4.6 1.3 6.5L12 17.3l-5.9 3.2 1.3-6.5L2.5 9.4l6.6-.8z"/></svg><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.9 6 6.6.8-4.9 4.6 1.3 6.5L12 17.3l-5.9 3.2 1.3-6.5L2.5 9.4l6.6-.8z"/></svg><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.9 6 6.6.8-4.9 4.6 1.3 6.5L12 17.3l-5.9 3.2 1.3-6.5L2.5 9.4l6.6-.8z"/></svg><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.9 6 6.6.8-4.9 4.6 1.3 6.5L12 17.3l-5.9 3.2 1.3-6.5L2.5 9.4l6.6-.8z"/></svg></span></div>
+          <blockquote class="rvText rvText--long">Simon and Michael from Strictly Bins are now a regular fixture at our place, and we couldn’t be happier with their service! Not only do they get our bins sparkling clean, but they leave them smelling so fresh and sanitised. It makes taking the rubbish out each day a much more pleasant experience! Highly recommend Simon and Michael to anyone looking for a local, reliable bin cleaning service!</blockquote>
+          <p class="rvName">Belinda</p>
+        </li>
+        <li class="rvCard" role="group" aria-roledescription="review" aria-label="Review 6 of 7">
+          <div class="rvTop"><span class="rvTag">Google review</span><span class="rvStars" role="img" aria-label="5 out of 5 stars"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.9 6 6.6.8-4.9 4.6 1.3 6.5L12 17.3l-5.9 3.2 1.3-6.5L2.5 9.4l6.6-.8z"/></svg><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.9 6 6.6.8-4.9 4.6 1.3 6.5L12 17.3l-5.9 3.2 1.3-6.5L2.5 9.4l6.6-.8z"/></svg><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.9 6 6.6.8-4.9 4.6 1.3 6.5L12 17.3l-5.9 3.2 1.3-6.5L2.5 9.4l6.6-.8z"/></svg><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.9 6 6.6.8-4.9 4.6 1.3 6.5L12 17.3l-5.9 3.2 1.3-6.5L2.5 9.4l6.6-.8z"/></svg><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.9 6 6.6.8-4.9 4.6 1.3 6.5L12 17.3l-5.9 3.2 1.3-6.5L2.5 9.4l6.6-.8z"/></svg></span></div>
+          <blockquote class="rvText">Excellent, reliable service. Highly recommend!! Thank you Simon &amp; Michael.</blockquote>
+          <p class="rvName">Google reviewer</p>
+        </li>
+        <li class="rvCard" role="group" aria-roledescription="review" aria-label="Review 7 of 7">
+          <div class="rvTop"><span class="rvTag">Google review</span><span class="rvStars" role="img" aria-label="5 out of 5 stars"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.9 6 6.6.8-4.9 4.6 1.3 6.5L12 17.3l-5.9 3.2 1.3-6.5L2.5 9.4l6.6-.8z"/></svg><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.9 6 6.6.8-4.9 4.6 1.3 6.5L12 17.3l-5.9 3.2 1.3-6.5L2.5 9.4l6.6-.8z"/></svg><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.9 6 6.6.8-4.9 4.6 1.3 6.5L12 17.3l-5.9 3.2 1.3-6.5L2.5 9.4l6.6-.8z"/></svg><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.9 6 6.6.8-4.9 4.6 1.3 6.5L12 17.3l-5.9 3.2 1.3-6.5L2.5 9.4l6.6-.8z"/></svg><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.9 6 6.6.8-4.9 4.6 1.3 6.5L12 17.3l-5.9 3.2 1.3-6.5L2.5 9.4l6.6-.8z"/></svg></span></div>
+          <blockquote class="rvText">Great job! Professional and reliable staff. Needs a 10 star rating!!</blockquote>
+          <p class="rvName">Veronika</p>
+        </li>
+      </ul>
     </div>
   </div>
 </section>
@@ -1356,5 +1441,21 @@ footer a:hover{color:var(--mist)}
 </script>
   <script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
   <script defer src="/_vercel/insights/script.js"></script>
+<script>
+(function(){
+  var t=document.getElementById('rvTrack'); if(!t) return;
+  var btns=document.querySelectorAll('.rvBtn');
+  function step(){var c=t.querySelector('.rvCard'); if(!c) return 300; return c.getBoundingClientRect().width+parseFloat(getComputedStyle(t).columnGap||20);}
+  function ends(){var max=t.scrollWidth-t.clientWidth-4;
+    btns.forEach(function(b){var d=+b.dataset.dir; b.disabled=d<0? t.scrollLeft<=4 : t.scrollLeft>=max;});}
+  btns.forEach(function(b){b.addEventListener('click',function(){
+    var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+    t.scrollBy({left:(+b.dataset.dir)*step(),behavior:reduce?'auto':'smooth'});});});
+  t.addEventListener('scroll',function(){window.requestAnimationFrame(ends);},{passive:true});
+  t.addEventListener('keydown',function(e){if(e.key==='ArrowRight'||e.key==='ArrowLeft'){e.preventDefault();
+    t.scrollBy({left:(e.key==='ArrowRight'?1:-1)*step(),behavior:'smooth'});}});
+  window.addEventListener('resize',ends); ends();
+})();
+</script>
 </body>
 </html>
