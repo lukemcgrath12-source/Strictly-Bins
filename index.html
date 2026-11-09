@@ -1434,6 +1434,9 @@ footer a:hover{color:var(--mist)}
       ev('click_to_call',{link_url:href,link_text:(a.textContent||'').trim().slice(0,80)});
       return;
     }
+    if(href.indexOf('mailto:')===0){ ev('click_email',{link_url:href}); return; }
+    if(/facebook\.com|instagram\.com/.test(href)){ ev('social_click',{platform:href.indexOf('instagram')>-1?'instagram':'facebook'}); return; }
+    if(/google\.com\/maps|maps\.google|g\.page|search\.google\.com\/local/.test(href)){ ev('gbp_click',{action:href.indexOf('writereview')>-1?'write_review':'view_maps'}); return; }
     if(href.indexOf('#enquiry')>-1){
       ev('cta_enquiry_click',{link_text:(a.textContent||'').trim().slice(0,80),
                               location:(a.closest('section')||{}).id||'other'});
