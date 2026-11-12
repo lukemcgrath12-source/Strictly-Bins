@@ -433,6 +433,12 @@ footer a:hover{color:var(--mist)}
 /* ── reviews carousel ─────────────────────────────────────── */
 #reviews{background:var(--bg)}
 .rvHead{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;margin-bottom:clamp(28px,3.6vw,44px)}
+.rvScore{display:inline-flex;align-items:center;gap:10px;margin-top:14px;padding:8px 16px 8px 12px;border:1px solid var(--line);border-radius:999px;background:#fff;color:var(--forest);font-weight:600;font-size:15px;text-decoration:none;transition:transform .25s cubic-bezier(.34,1.56,.64,1),border-color .2s}
+.rvScore b{font-family:var(--display);font-weight:800;font-size:19px;color:var(--deep);line-height:1}
+.rvScore .rvStars svg{width:16px;height:16px}
+.rvScore:hover{transform:translateY(-2px);border-color:var(--grass)}
+.rvScore:active{transform:scale(.97)}
+.rvScore:focus-visible{outline:2px solid var(--grass);outline-offset:3px}
 .rvNav{display:flex;gap:10px;flex:none}
 .rvBtn{width:48px;height:48px;border-radius:50%;border:1.5px solid var(--line);background:#fff;color:var(--forest);display:grid;place-items:center;cursor:pointer;
   box-shadow:0 1px 2px rgba(6,46,19,.06),0 10px 22px -14px rgba(6,46,19,.35);
@@ -768,6 +774,7 @@ footer a:hover{color:var(--mist)}
       <div>
         <p class="eyebrow">What the neighbours say</p>
         <h2 id="reviewsHead">Straight from Google.</h2>
+        <a class="rvScore" href="https://www.google.com/maps/search/?api=1&amp;query=Strictly+Bins+Carss+Park" target="_blank" rel="noopener" aria-label="Rated 5.0 out of 5 from 13 Google reviews"><b>5.0</b><span class="rvStars" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.9 6 6.6.8-4.9 4.6 1.3 6.5L12 17.3l-5.9 3.2 1.3-6.5L2.5 9.4l6.6-.8z"/></svg><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.9 6 6.6.8-4.9 4.6 1.3 6.5L12 17.3l-5.9 3.2 1.3-6.5L2.5 9.4l6.6-.8z"/></svg><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.9 6 6.6.8-4.9 4.6 1.3 6.5L12 17.3l-5.9 3.2 1.3-6.5L2.5 9.4l6.6-.8z"/></svg><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.9 6 6.6.8-4.9 4.6 1.3 6.5L12 17.3l-5.9 3.2 1.3-6.5L2.5 9.4l6.6-.8z"/></svg><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.9 6 6.6.8-4.9 4.6 1.3 6.5L12 17.3l-5.9 3.2 1.3-6.5L2.5 9.4l6.6-.8z"/></svg></span><span>13 Google reviews</span></a>
       </div>
       <div class="rvNav">
         <button class="rvBtn" type="button" data-dir="-1" aria-label="Previous reviews"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></button>
